@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h1>{{blog.title}}</h1>
+        <p>날짜: {{blog.pub_date}}</p>
+        <p>본문: {{blog.body}}</p>
+        <p style="color: purple">
+            {% for hashtag in hashtags.all %}
+            #{{hashtag}}
+            {% endfor %}
+        </p>
+    </div>
+    
+    <br>
+    <br>
+    <div class="btn-group">
+        <button><a href="{% url 'home' %}" class="btn btn-primary active" aria-current="page">홈으로 돌아가기</a></button>
+        <button><a href="{% url 'edit' blog.id %}" class="btn btn-primary">수정하기</a></button>
+        <button><a href="{% url 'delete' blog.id %}" class="btn btn-primary">삭제하기</a></button>
+    </div>
+    <!-- <a href="{% url 'home' %}">홈으로 돌아가기</a>
+    <a href="{% url 'edit' blog.id %}">수정하기</a>
+    <br>
+    <a href="{% url 'delete' blog.id %}">삭제하기</a> -->
+    
+    <!-- 댓글 추가 -->
+    
+    <hr>
+    {% for comment in blog.comments.all %}
+    <div class="card" style="width: 1400px;">
+        <div class="card-body">
+            <h4 class="card-title">{{ comment.created_at }}</h4>
+            <h4 class="card-subtitle">{{ comment.author_name }}</h4>
+            <p class="card-text">{{ comment.comment_text|linebreaks }}</p>
+        </div>
+    </div>
+    <!-- <div class="comment">
+        <div class="date">  {{ comment.created_at }}</div>
+        <strong> {{ comment.author_name }}</strong>
+        <p> {{comment.comment_text|linebreaks }}</p>
+    </div>
+    {% empty %}
+    <p>No comments here yet :(</p> -->
+    {% endfor %}
+    
+    <hr>
+    <a class="btn btn-default" href="{% url 'add_comment_to_post' blog.id %}">댓글달기</a>
+</body>
+</html>
